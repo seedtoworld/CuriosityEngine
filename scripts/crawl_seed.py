@@ -1,30 +1,46 @@
 from src.crawler.fetcher import Fetcher
 from src.parser.html_parser import HTMLParser
-from src.utils.url_utils import normalize_url
+from src.utils.url_utils import normalize_url, is_valid_url
+from src.frontier.frontier import Frontier
 from src.utils.logger import logger
+
+import time
 
 def crawl(url: str):
     fetcher = Fetcher()
     parser = HTMLParser()
+    frontier = Frontier()
 
-    page = fetcher.fetch(url)
+    frontier.add_url(seed_url, depth=0)
 
-    if not page:
-        return
+    while frontier.size() > 0:
+        item = frontier.get_next()
 
-    html = page["html"]
+        url = item.url
+        depth = item.depth
 
-    title = parser.parse_title(html)
+        logger.info(f"Crawling depth={depth} url={url}")
 
-    logger.info(f"Page Title: {title}")
+        page = fetcher.fetch(url)
 
-    links = parser.extract_links(html, url)
+        if not page:
+            return
 
-    logger.info(f"Discovered {len(links)} links")
+        html = page["html"]
 
-    for link in links[:20]:
-        normalized = normalize_url(link)
-        print(normalized)
+        links = parser.extract_links(html, url)
+
+        for link in links:
+            normalized = normalize_url(link)
+
+            if not is_valid_url(normalized):
+                continue
+                
+            frontier.add_url(normalized, depth + 1)
+        
+        logger.info(f"Frontier size: {frontier.size()}")
+        
+        time.sleep(0.1)
 
 if __name__ == "__main__":
     seed_url = "https://news.ycombinator.com"

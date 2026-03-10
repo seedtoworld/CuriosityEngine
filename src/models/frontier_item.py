@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-@dataclass(order=True)
+@dataclass
 class FrontierItem:
-    priority: float
     url: str
     depth: int
-    source_url: str
+    priority: float = 0.0
+    source_url: str = ""

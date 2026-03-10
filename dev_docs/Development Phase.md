@@ -1,6 +1,6 @@
 - [x] Project skeleton created
-- [ ] Minimal Crawler
-- [ ] Frontier System
+- [x] Minimal Crawler
+- [x] Frontier System
 - [ ] Database
 - [ ] Robust Crawling
 - [ ] Curiosity scoring
@@ -38,12 +38,12 @@ Deliverable:
 # Phase 2 - Frontier System (URL Management)
 
 Goals: Control **what the crawler visits next**.
-- [ ] Implement URL frontier queue
-- [ ] Add URL deduplication
-- [ ] Track visited URLs
-- [ ] Store URL depth
-- [ ] Add priority scoring placeholder
-- [ ] Limit frontier size
+- [x] Implement URL frontier queue
+- [x] Add URL deduplication
+- [x] Track visited URLs
+- [x] Store URL depth
+- [x] Add priority scoring placeholder
+- [x] Limit frontier size
 
 Deliverable:
 - Controlled crawling with queue-based exploration
