@@ -1,4 +1,4 @@
-- [ ] Project skeleton created
+- [x] Project skeleton created
 - [ ] Minimal Crawler
 - [ ] Frontier System
 - [ ] Database
@@ -25,13 +25,13 @@ Deliverable:
 # Phase 1 - Minimal Crawler
 
 Goals: Confirm the system can crawl and extract links.
-- [ ] Implement simple HTTP page fetcher
-- [ ] Extract HTML content
-- [ ] Parse page title
-- [ ] Extract hyperlinks
-- [ ] Normalize URLs
-- [ ] Print discovered links
-- [ ] Crawl starting from one seed URL
+- [x] Implement simple HTTP page fetcher
+- [x] Extract HTML content
+- [x] Parse page title
+- [x] Extract hyperlinks
+- [x] Normalize URLs
+- [x] Print discovered links
+- [x] Crawl starting from one seed URL
 
 Deliverable:
 - Crawler can visit pages and discover new URLs
