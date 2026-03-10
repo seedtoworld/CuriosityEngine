@@ -1,0 +1,12 @@
+crawler:
+  user_agent: CuriosityEngineBot/0.1
+  timeout: 10
+  max_retries: 3
+  max_depth: 10
+
+frontier:
+  max_size: 10000
+
+storage:
+  database: sqlite
+  path: /data/curiosity.db
