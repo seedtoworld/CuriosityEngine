@@ -38,7 +38,8 @@ class Database:
         CREATE TABLE IF NOT EXISTS links (
             id INTEGER PRIMARY KEY,
             source_url TEXT,
-            target_url TEXT
+            target_url TEXT,
+            UNIQUE(source_url, target_url)
         )
         """)
 
