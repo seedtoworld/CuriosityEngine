@@ -1,7 +1,7 @@
 from src.crawler.fetcher import Fetcher
 from src.parser.html_parser import HTMLParser
 from src.utils.url_utils import normalize_url, is_valid_url
-from src.frontier.frontier import Frontier
+from src.storage.repository import Repository
 from src.utils.logger import logger
 
 import time
@@ -9,15 +9,17 @@ import time
 def crawl(url: str):
     fetcher = Fetcher()
     parser = HTMLParser()
-    frontier = Frontier()
+    repo = Repository()
 
-    frontier.add_url(seed_url, depth=0)
+    repo.add_frontier(seed_url, depth=0)
 
-    while frontier.size() > 0:
-        item = frontier.get_next()
+    while True:
+        item = repo.get_next_frontier()
+        if not item:
+            logger.info("Frontier empty. Crawling finished.")
 
-        url = item.url
-        depth = item.depth
+        url = item["url"]
+        depth = item["depth"]
 
         logger.info(f"Crawling depth={depth} url={url}")
 
@@ -27,8 +29,11 @@ def crawl(url: str):
             return
 
         html = page["html"]
-
+        title = parser.parse_title(html)
         links = parser.extract_links(html, url)
+
+        repo.save_page(url, title, page["status_code"], html)
+        repo.save_links(url, links)
 
         for link in links:
             normalized = normalize_url(link)
@@ -36,11 +41,11 @@ def crawl(url: str):
             if not is_valid_url(normalized):
                 continue
                 
-            frontier.add_url(normalized, depth + 1)
+            repo.add_frontier(normalized, depth + 1)
         
-        logger.info(f"Frontier size: {frontier.size()}")
+        logger.info(f"Discovered {len(links)} links")
         
-        time.sleep(0.1)
+        time.sleep(1)
 
 if __name__ == "__main__":
     seed_url = "https://news.ycombinator.com"

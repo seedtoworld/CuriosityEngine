@@ -1,7 +1,7 @@
 - [x] Project skeleton created
 - [x] Minimal Crawler
 - [x] Frontier System
-- [ ] Database
+- [x] Database
 - [ ] Robust Crawling
 - [ ] Curiosity scoring
 - [ ] Research mode
@@ -51,16 +51,16 @@ Deliverable:
 
 Goals: Persist data so the crawler can **restart safely**.
 #### Database
-- [ ] Setup database
-- [ ] Create `pages` table
-- [ ] Create `links` table
-- [ ] Create `frontier` table
-- [ ] Create `domains` table
+- [x] Setup database
+- [x] Create `pages` table
+- [x] Create `links` table
+- [x] Create `frontier` table
+- [x] Create `domains` table
 #### Persistence
-- [ ] Store crawled pages
-- [ ] Store extracted links
-- [ ] Persist frontier queue
-- [ ] Support crawler restart
+- [x] Store crawled pages
+- [x] Store extracted links
+- [x] Persist frontier queue
+- [x] Support crawler restart
 
 Deliverable:
 - Crawler that can stop and resume safely
