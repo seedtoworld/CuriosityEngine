@@ -23,6 +23,8 @@ class Database:
     
     def initialize_schema(self):
 
+
+
         self.execute("""
         CREATE TABLE IF NOT EXISTS pages (
             id INTEGER PRIMARY KEY,
@@ -30,6 +32,7 @@ class Database:
             title TEXT,
             status_code INTEGER,
             html TEXT,
+            content_hash TEXT,
             crawled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
         """)
@@ -56,4 +59,20 @@ class Database:
             domain TEXT PRIMARY KEY,
             last_crawled TIMESTAMP
         )
+        """)
+
+        self.execute("""
+        CREATE INDEX IF NOT EXISTS idx_pages_url ON pages(url);
+        """)
+
+        self.execute("""
+        CREATE INDEX IF NOT EXISTS idx_links_source ON links(source_url);
+        """)
+
+        self.execute("""
+        CREATE INDEX IF NOT EXISTS idx_links_target ON links(target_url);
+        """)
+
+        self.execute("""
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_content_hash ON pages(content_hash);
         """)

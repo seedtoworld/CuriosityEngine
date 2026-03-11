@@ -1,5 +1,9 @@
 import requests
+import time
+
 from src.utils.logger import logger
+
+MAX_RETRIES = 3
 
 class Fetcher:
 
@@ -15,20 +19,31 @@ class Fetcher:
         })
     
     def fetch(self, url: str):
-        try:
-            response = self.session.get(
-                url,
-                timeout=self.timeout
-            )
+        for attempt in range(MAX_RETRIES):
+            try:
+                response = self.session.get(
+                    url,
+                    timeout=self.timeout
+                )
 
-            logger.info(f"Fetched {url} [{response.status_code}]")
+                content_type = response.headers.get("Content-Type", "")
+                if "text/html" not in content_type:
+                    return None
 
-            return {
-                "url": url,
-                "status_code": response.status_code,
-                "html": response.text
-            }
+                logger.info(f"Fetched {url} [{response.status_code}]")
+
+                return {
+                    "url": url,
+                    "status_code": response.status_code,
+                    "html": response.text
+                }
+            
+            except requests.exceptions.Timeout:
+                logger.warning(f"Timeout fetching {url}")
+
+            except Exception as e:
+                logger.error(f"Failed to fetch {url}: {e}")
         
-        except Exception as e:
-            logger.error(f"Failed to fetch {url}: {e}")
-            return None
+        logger.error(f"Failed after retries: {url}")
+
+        return None

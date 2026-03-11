@@ -2,7 +2,7 @@
 - [x] Minimal Crawler
 - [x] Frontier System
 - [x] Database
-- [ ] Robust Crawling
+- [x] Robust Crawling
 - [ ] Curiosity scoring
 - [ ] Research mode
 - [ ] Discovery mode
@@ -67,12 +67,12 @@ Deliverable:
 # Phase 4 - Robust Crawling
 
 Goals: Make crawler **stable and respectful**.
-- [ ] Add request timeout
-- [ ] Add retry system
-- [ ] Filter non-HTML content
-- [ ] Implement `robots.txt` parsing
-- [ ] Add domain rate limiting
-- [ ] Detect duplicate content (hashing)
+- [x] Add request timeout
+- [x] Add retry system
+- [x] Filter non-HTML content
+- [x] Implement `robots.txt` parsing
+- [x] Add domain rate limiting
+- [x] Detect duplicate content (hashing)
 
 Deliverable:
 - Reliable crawler that can run continuously
