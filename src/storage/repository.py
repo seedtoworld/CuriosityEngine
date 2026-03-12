@@ -20,6 +20,12 @@ class Repository:
         VALUES (?, ?)
         """, rows)
     
+    def save_curiosity_scores(self, url, score):
+        self.db.execute("""
+        INSERT OR IGNORE INTO curiosity_scores (url, score)
+        VALUES (?, ?)
+        """, (url, score))
+
     def add_frontier(self, url, depth, priority=0):
         self.db.execute("""
         INSERT OR IGNORE INTO frontier (url, depth, priority)
@@ -35,12 +41,11 @@ class Repository:
 
         return cursor.fetchone() is not None
 
-    # ORDER BY priority DESC
     def get_next_frontier(self):
         cursor = self.db.execute("""
         SELECT url, depth, priority
         FROM frontier
-        ORDER BY depth ASC
+        ORDER BY priority DESC
         LIMIT 1
         """)
 

@@ -80,14 +80,14 @@ Deliverable:
 
 Goals: Make the crawler **choose interesting pages**.
 #### Curiosity Signals
-- [ ] Implement novelty scoring
-- [ ] Implement rarity scoring
-- [ ] Implement domain novelty
-- [ ] Implement exploration depth bonus
+- [x] Implement novelty scoring
+- [x] Implement rarity scoring
+- [x] Implement domain novelty
+- [x] Implement exploration depth bonus
 #### Curiosity Score
-- [ ] Combine signals into final score
-- [ ] Use score to prioritize URLs
-- [ ] Track curiosity score history
+- [x] Combine signals into final score
+- [x] Use score to prioritize URLs
+- [x] Track curiosity score history
 
 Deliverable:
 - Agent chooses pages based on curiosity

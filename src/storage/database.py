@@ -23,8 +23,6 @@ class Database:
     
     def initialize_schema(self):
 
-
-
         self.execute("""
         CREATE TABLE IF NOT EXISTS pages (
             id INTEGER PRIMARY KEY,
@@ -58,6 +56,15 @@ class Database:
         CREATE TABLE IF NOT EXISTS domains (
             domain TEXT PRIMARY KEY,
             last_crawled TIMESTAMP
+        )
+        """)
+
+        self.execute("""
+        CREATE TABLE IF NOT EXISTS curiosity_scores (
+            id INTEGER PRIMARY_KEY,
+            url TEXT,
+            score REAL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
         """)
 

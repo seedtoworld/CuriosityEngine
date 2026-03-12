@@ -19,8 +19,9 @@ def normalize_url(url: str) -> str:
 
 def is_valid_url(url: str) -> bool:
     url_lower = url.lower()
+    parsed = urlparse(url)
 
-    return not url_lower.endswith(BAD_EXTENSIONS)
+    return (not url_lower.endswith(BAD_EXTENSIONS) and parsed.scheme in ["http", "https"])
 
 def same_domain(url: str, seed_domain: str):
     return urlparse(url).netloc == seed_domain
