@@ -86,7 +86,7 @@ def crawl(url: str):
             curiosity_score = scorer.score(normalized, depth + 1)
             
             score = curiosity_score + relevance + anchor_score
-            repo.save_curiosity_scores(url, score)
+            repo.save_curiosity_scores(normalized, score)
             repo.add_frontier(normalized, depth + 1, score)
         
         logger.info(f"Discovered {len(links)} links")
