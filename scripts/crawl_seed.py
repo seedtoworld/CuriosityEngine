@@ -1,5 +1,4 @@
 import sys
-from bs4 import BeautifulSoup
 
 from src.research.topic_processor import TopicProcessor
 from src.crawler.fetcher import Fetcher
@@ -40,9 +39,9 @@ def crawl(url: str):
         depth = item["depth"]
 
         # respect robots.txt
-        # if not robots.allowed(url, "CuriosityEngine/0.1"):
-        #     logger.info(f"Blocked by robots.txt: {url}")
-        #     continue
+        if not robots.allowed(url, "CuriosityEngine/0.1"):
+            logger.info(f"Blocked by robots.txt: {url}")
+            continue
 
         # rate limiting per domain
         rate_limiter.wait(url)
