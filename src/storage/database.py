@@ -85,6 +85,15 @@ class Database:
         """)
 
         self.execute("""
+        CREATE TABLE IF NOT EXISTS discoveries (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            url TEXT,
+            score REAL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+        """)
+
+        self.execute("""
         CREATE INDEX IF NOT EXISTS idx_pages_url ON pages(url);
         """)
 

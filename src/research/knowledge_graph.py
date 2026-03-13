@@ -12,4 +12,10 @@ class KnowledgeGraph:
             self.repo.add_relationship(a, b)
     
     def export_graph(self):
-        pass
+        nodes = self.repo.get_concepts()
+        edges = self.repo.get_relationships()
+
+        return {
+            "nodes": nodes,
+            "edges": edges
+        }

@@ -25,6 +25,12 @@ class Repository:
         INSERT OR IGNORE INTO curiosity_scores (url, score)
         VALUES (?, ?)
         """, (url, score))
+    
+    def save_discovery(self, url, score):
+        self.db.execute("""
+        INSERT INTO discoveries (url, score)
+        VALUES (?, ?)
+        """, (url, score))
 
     def add_frontier(self, url, depth, priority=0):
         self.db.execute("""
@@ -32,6 +38,20 @@ class Repository:
         VALUES (?, ?, ?)
         """, (url, depth, priority))
     
+    def add_concept(self, concept):
+        self.db.execute("""
+        INSERT OR IGNORE INTO concepts (name)
+        VALUES (?)
+        """, (concept,))
+    
+    def add_relationship(self, source, target):
+        self.db.execute("""
+        INSERT INTO relationships (source, target, weight)
+        VALUES (?, ?, 1)
+        ON CONFLICT(source, target)
+        DO UPDATE SET weight = weight + 1
+        """, (source, target))
+
     def page_exists(self, content_hash):
         cursor = self.db.execute("""
         SELECT 1 FROM pages 
@@ -50,7 +70,6 @@ class Repository:
         """)
 
         row = cursor.fetchone()
-
         if not row:
             return None
         
@@ -61,16 +80,37 @@ class Repository:
 
         return row
     
-    def add_concept(self, concept):
-        self.db.execute("""
-        INSERT OR IGNORE INTO concepts (name)
-        VALUES (?)
-        """, (concept,))
+    def get_concepts(self):
+        cursor =  self.db.execute("SELECT name FROM concepts")
+
+        rows = cursor.fetchall()
+        if not rows:
+            return None
+
+        return rows
     
-    def add_relationship(self, source, target):
-        self.db.execute("""
-        INSERT INTO relationships (source, target, weight)
-        VALUES (?, ?, 1)
-        ON CONFLICT(source, target)
-        DO UPDATE SET weight = weight + 1
-        """, (source, target))
+    def get_relationships(self):
+        cursor = self.db.execute("""
+        SELECT source, target, weight
+        FROM relationships
+        """)
+
+        rows = cursor.fetchall()
+        if not rows:
+            return None
+
+        return rows
+
+    def get_top_discoveries(self, limit=20):
+        cursor = self.db.execute("""
+        SELECT url, score
+        FROM discoveries
+        ORDER BY score DESC
+        LIMIT ?
+        """, (limit,))
+
+        rows = cursor.fetchall()
+        if not rows:
+            return None
+
+        return rows

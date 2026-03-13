@@ -1,17 +1,24 @@
 import sys
 
-from src.research.topic_processor import TopicProcessor
 from src.crawler.fetcher import Fetcher
 from src.parser.html_parser import HTMLParser
-from src.utils.url_utils import normalize_url, is_valid_url
+
 from src.storage.repository import Repository
+
 from src.engine.scorer import CuriosityScorer
+
 from src.research.relevance import TopicRelevance
 from src.research.concept_extraction import ConceptExtractor
+from src.research.topic_processor import TopicProcessor
 from src.research.knowledge_graph import KnowledgeGraph
+
+from src.discovery.weirdness import WeirdnessDetector
+from src.discovery.discovery_ranker import DiscoveryRanker
+
 from src.utils.logger import logger
+from src.utils.url_utils import normalize_url, is_valid_url
 from src.utils.robots import RobotsManager
-from src.utils.rate_limiter import DomainRateLimiter
+from src.utils.domain_limiter import DomainLimiter
 from src.utils.hash_utils import content_hash
 
 topic = None
@@ -22,11 +29,13 @@ def crawl(url: str):
     parser = HTMLParser()
     repo = Repository()
     robots = RobotsManager()
-    rate_limiter = DomainRateLimiter()
+    domain_limiter = DomainLimiter()
     scorer = CuriosityScorer()
     relevance_engine = TopicRelevance()
     concept_extractor = ConceptExtractor()
     knowledge_graph = KnowledgeGraph(repo)
+    weridness_detector = WeirdnessDetector()
+    discovery_ranker = DiscoveryRanker(weridness_detector)
 
     repo.add_frontier(seed_url, depth=0)
 
@@ -43,8 +52,10 @@ def crawl(url: str):
             logger.info(f"Blocked by robots.txt: {url}")
             continue
 
-        # rate limiting per domain
-        rate_limiter.wait(url)
+        # domain limiter
+        if not domain_limiter.allow_crawl(url):
+            continue
+        domain_limiter.wait(url)
 
         logger.info(f"Crawling depth={depth} url={url}")
 
@@ -72,6 +83,11 @@ def crawl(url: str):
         concepts = concept_extractor.extract(text)
         knowledge_graph.update(concepts)
 
+        # store weird pages
+        discovery_score = discovery_ranker.score(url, text, html)
+        if discovery_score > 0.6:
+            repo.save_discovery(url, discovery_score)
+
         repo.save_page(url, title, page["status_code"], text, hash_value)
         repo.save_links(url, links)
 
@@ -81,7 +97,7 @@ def crawl(url: str):
             if not is_valid_url(normalized):
                 continue
             
-            anchor_text = link.get_text().lower()
+            anchor_text = link.lower()
             anchor_score = relevance_engine.score(anchor_text, keywords)
             curiosity_score = scorer.score(normalized, depth + 1)
             
@@ -97,7 +113,7 @@ if __name__ == "__main__":
         processor = TopicProcessor()
         keywords = processor.extract_keywords(topic)
     
-    seed_url = "https://en.wikipedia.org/wiki/Astronomy"
+    seed_url = "http://textfiles.com"
     crawl(seed_url)
 
 # https://news.ycombinator.com

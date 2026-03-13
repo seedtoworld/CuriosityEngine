@@ -5,7 +5,7 @@
 - [x] Robust Crawling
 - [x] Curiosity scoring
 - [x] Research mode
-- [ ] Discovery mode
+- [x] Discovery mode
 - [ ] Multi-agent exploration
 - [ ] Visualization
 # Phase 0 - Project Foundation
@@ -117,18 +117,18 @@ Deliverable:
 
 Goals: Autonomous exploration of unusual content.
 #### Weirdness Detection
-- [ ] Detect rare vocabulary
-- [ ] Detect deep URLs
-- [ ] Detect old website structure
-- [ ] Detect unusual domains
+- [x] Detect rare vocabulary
+- [x] Detect deep URLs
+- [x] Detect old website structure
+- [x] Detect unusual domains
 #### Discovery System
-- [ ] Rank interesting pages
-- [ ] Store discoveries
-- [ ] Generate discovery feed
+- [x] Rank interesting pages
+- [x] Store discoveries
+- [x] Generate discovery feed
 #### Daily Report
 - [ ] Generate curiosity report
-- [ ] List top discoveries
-- [ ] Save discovery history
+- [x] List top discoveries
+- [x] Save discovery history
 
 Deliverable:
 - System discovers interesting websites.
