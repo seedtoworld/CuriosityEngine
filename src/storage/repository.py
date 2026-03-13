@@ -60,3 +60,17 @@ class Repository:
         )
 
         return row
+    
+    def add_concept(self, concept):
+        self.db.execute("""
+        INSERT OR IGNORE INTO concepts (name)
+        VALUES (?)
+        """, (concept,))
+    
+    def add_relationship(self, source, target):
+        self.db.execute("""
+        INSERT INTO relationships (source, target, weight)
+        VALUES (?, ?, 1)
+        ON CONFLICT(source, target)
+        DO UPDATE SET weight = weight + 1
+        """, (source, target))

@@ -69,6 +69,22 @@ class Database:
         """)
 
         self.execute("""
+        CREATE TABLE IF NOT EXISTS concepts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT UNIQUE
+        )
+        """)
+
+        self.execute("""
+        CREATE TABLE IF NOT EXISTS relationships (
+            source TEXT,
+            target TEXT,
+            weight INTEGER DEFAULT 1,
+            UNIQUE(source, target)
+        )
+        """)
+
+        self.execute("""
         CREATE INDEX IF NOT EXISTS idx_pages_url ON pages(url);
         """)
 

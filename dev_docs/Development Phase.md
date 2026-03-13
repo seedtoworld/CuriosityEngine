@@ -3,8 +3,8 @@
 - [x] Frontier System
 - [x] Database
 - [x] Robust Crawling
-- [ ] Curiosity scoring
-- [ ] Research mode
+- [x] Curiosity scoring
+- [x] Research mode
 - [ ] Discovery mode
 - [ ] Multi-agent exploration
 - [ ] Visualization
@@ -96,18 +96,18 @@ Deliverable:
 
 Goals: Enable **topic-driven exploration**.
 #### Topic Processing
-- [ ] Accept topic input
-- [ ] Extract keywords from topic
-- [ ] Compute topic relevance score
+- [x] Accept topic input
+- [x] Extract keywords from topic
+- [x] Compute topic relevance score
 #### Topic Exploration
-- [ ] Prioritize relevant pages
-- [ ] Track topic clusters
-- [ ] Build topic graph
+- [x] Prioritize relevant pages
+- [x] Track topic clusters
+- [x] Build topic graph
 #### Knowledge Graph
-- [ ] Extract key concepts from pages
-- [ ] Create topic nodes
-- [ ] Create relationship edges
-- [ ] Store knowledge graph
+- [x] Extract key concepts from pages
+- [x] Create topic nodes
+- [x] Create relationship edges
+- [x] Store knowledge graph
 - [ ] Export graph structure
 
 Deliverable:
